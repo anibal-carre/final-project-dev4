@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bitacora;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class BitacoraController extends Controller
@@ -37,23 +39,37 @@ class BitacoraController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'idusuario' => 'required|exists:usuarios,id',
-            'fecha' => 'required|date',
-            'hora' => 'required',
-            'ip' => 'required|ip',
-            'so' => 'required',
-            'navegador' => 'required',
-            'usuario' => 'required',
+
+
+        $fecha = Carbon::now()->toDateString();
+
+        // Obtenemos la hora actual
+        $hora = Carbon::now('America/Sao_Paulo')->toTimeString();
+
+        // Obtenemos la dirección IP del cliente
+        $ip = $request->ip();
+
+        // Valores estáticos para SO y Navegador
+        $so = 'Windows 10';
+        $navegador = 'Chrome';
+
+        // Usuario obtenido de la solicitud (puedes ajustar esto según tu autenticación)
+        $usuario = $request->input('usuario');
+
+        // Insertamos la entrada en la tabla bitacoras
+        DB::table('bitacoras')->insert([
+            'idusuario' => $request->input('idusuario'),
+            'fecha' => $fecha,
+            'hora' => $hora,
+            'ip' => $ip,
+            'so' => $so,
+            'navegador' => $navegador,
+            'usuario' => $usuario,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
-
-        $bitacora = Bitacora::create($request->all());
-
-        return response()->json($bitacora, 201);
+        return response()->json(['message' => 'Bitácora registrada correctamente']);
     }
 
     /**
@@ -64,7 +80,13 @@ class BitacoraController extends Controller
      */
     public function show($id)
     {
-        //
+        $bitacora = Bitacora::find($id);
+
+        if (!$bitacora) {
+            return response()->json(['error' => 'Bitácora no encontrada'], 404);
+        }
+
+        return response()->json($bitacora, 200);
     }
 
     /**

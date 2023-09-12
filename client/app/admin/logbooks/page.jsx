@@ -10,6 +10,7 @@ import { ComboboxDemo } from "@/components/ui/ComboBox";
 import { useRouter } from "next/navigation";
 
 import { LifeBuoy } from "lucide-react";
+import LogsList from "@/components/LogsList";
 const LogbooksPage = () => {
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -79,8 +80,13 @@ const LogbooksPage = () => {
               Admin / Logbooks
             </span>
           </div>
-          <div className="h-24 md:h-[150px] flex gap-3 justify-center items-center">
-            <div className="w-[300px] flex flex-col"></div>
+          <div className="h-auto flex gap-3 justify-center md:justify-end w-full">
+            <div className="w-full flex flex-col items-center md:items-end md:pr-[10px] lg:pr-[100px] xl:pr-[150px] 2xl:pr-[250px] pt-10">
+              <div className="h-auto w-[80%] md:w-[60%] flex justify-start md:justify-end mb-5">
+                <h3 className="text-lg font-semibold underline">Logs</h3>
+              </div>
+              <LogsList />
+            </div>
           </div>
         </div>
       </div>

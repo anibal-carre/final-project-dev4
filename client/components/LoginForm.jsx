@@ -15,15 +15,31 @@ const LoginForm = ({ handleRegister, router }) => {
     setClave(event.target.value);
   };
 
-  const handleLoginSuccess = (userData) => {
+  const handleLoginSuccess = async (userData) => {
     // Almacena la información del usuario en el localStorage
     localStorage.setItem("userData", JSON.stringify(userData));
 
-    // Redirige al usuario a la página correspondiente
-    if (userData.idrol === 1) {
-      router.push("/admin");
-    } else if (userData.idrol === 2) {
-      router.push("/user");
+    try {
+      // Registra una bitácora a través de la API utilizando los datos del usuario
+      const response = await axios.post("http://127.0.0.1:8000/api/bitacoras", {
+        idusuario: userData.usuario.id,
+        usuario: userData.usuario.usuario,
+        // Supongo que tienes un campo "id" en tus datos de usuario
+      });
+
+      const bitacoraData = response.data;
+
+      console.log(bitacoraData);
+
+      // Redirige al usuario a la página correspondiente
+      if (userData.idrol === 1) {
+        router.push("/admin");
+      } else if (userData.idrol === 2) {
+        router.push("/user");
+      }
+    } catch (error) {
+      // Manejar errores, mostrar mensajes de error, etc.
+      console.error("Error al registrar la bitácora:", error);
     }
   };
 
