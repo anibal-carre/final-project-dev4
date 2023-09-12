@@ -31,6 +31,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const UserNav = () => {
   const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+
+    router.push("/");
+  };
   return (
     <header className="w-full h-20 bg-zinc-900 flex justify-between items-center px-5 ">
       <div>
@@ -117,7 +123,7 @@ const UserNav = () => {
                 className="mr-2 h-4 w-4"
                 onClick={() => router.push("/")}
               />
-              <span onClick={() => router.push("/")}>Log out</span>
+              <span onClick={handleLogout}>Log out</span>
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>

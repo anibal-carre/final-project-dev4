@@ -82,7 +82,7 @@ const UserProfile = () => {
             </button>
             <span className="text-sm">
               <FontAwesomeIcon icon={faHouse} className="text-zinc-700 mr-2" />
-              Home / Desk
+              Home / Profile
             </span>
           </div>
           <div className="h-24 md:h-[150px] flex gap-3 justify-center items-center">
@@ -102,15 +102,21 @@ const UserProfile = () => {
                     />
                     <div className="min-w-0 flex-auto flex flex-col gap-2">
                       <div>
+                        <span className="text-sm font-semibold">Rol</span>
+                        <p className=" truncate text-xs leading-5 text-gray-500">
+                          {userData.usuario.idrol === 1 ? "Admin" : "User"}
+                        </p>
+                      </div>
+                      <div>
                         <span className="text-sm font-semibold">User</span>
                         <p className=" truncate text-xs leading-5 text-gray-500">
                           {userData.usuario.usuario}
                         </p>
                       </div>
                       <div>
-                        <span className="text-sm font-semibold">Rol</span>
+                        <span className="text-sm font-semibold">Password</span>
                         <p className=" truncate text-xs leading-5 text-gray-500">
-                          {userData.usuario.idrol === 1 ? "Admin" : "User"}
+                          ********
                         </p>
                       </div>
                     </div>

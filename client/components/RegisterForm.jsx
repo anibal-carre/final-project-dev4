@@ -25,14 +25,23 @@ const RegisterForm = ({ handleRegister }) => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/register",
         formData
-      ); // Ruta de registro en tu API
-      // Manejar la respuesta, por ejemplo, mostrar un mensaje de éxito o redirigir al usuario.
-      console.log(response.data);
-      router.push("/user");
+      );
+
+      const responseData = response.data;
+
+      console.log(responseData);
+
+      // Registro exitoso
+      localStorage.setItem("userData", JSON.stringify(responseData));
+      if (responseData.usuario.idrol === 1) {
+        router.push("/admin");
+      } else if (responseData.usuario.idrol === 2) {
+        router.push("/user");
+      }
     } catch (error) {
-      // Manejar errores, por ejemplo, mostrar mensajes de error al usuario.
       console.error(error);
-      router.push("/");
+      // Redirige al usuario a una página de error en caso de problemas en la petición.
+      router.push("/error");
     }
   };
   return (
