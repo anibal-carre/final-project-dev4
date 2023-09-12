@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\EnlaceController;
 use App\Http\Controllers\PaginaController;
@@ -28,3 +29,5 @@ Route::resource('personas', PersonaController::class)->except(['create', 'edit']
 
 // Rutas para la gestión de páginas
 Route::resource('paginas', PaginaController::class)->except(['create', 'edit']);
+
+Route::post('login', [UsuarioController::class, 'login']);

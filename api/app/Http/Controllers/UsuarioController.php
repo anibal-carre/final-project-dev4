@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
@@ -87,19 +88,48 @@ class UsuarioController extends Controller
 
     public function register(Request $request)
     {
-        // Validación de los datos del usuario (puedes usar el método validate aquí)
+        // Validación de los datos del usuario
+        $validator = Validator::make($request->all(), [
+
+            'usuario' => 'unique:usuarios,usuario',
+            'clave' => 'required',
+            'habilitado' => 'boolean',
+            'idrol' => 'exists:roles,idrol',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
         // Crear un nuevo usuario
         $usuario = new Usuario();
-        $usuario->idpersona = $request->input('idpersona');
         $usuario->usuario = $request->input('usuario');
-        $usuario->clave = bcrypt($request->input('clave')); // Hashear la contraseña
+        $usuario->clave = $request->input('clave');
         $usuario->habilitado = $request->input('habilitado');
         $usuario->idrol = $request->input('idrol');
         $usuario->save();
 
-        // Puedes personalizar la respuesta de acuerdo a tus necesidades
-        return response()->json(['message' => 'Usuario registrado con éxito'], 201);
+        // Devolver una respuesta con los detalles del usuario registrado
+        return response()->json(['message' => 'Usuario registrado con éxito', 'usuario' => $usuario], 201);
+    }
+
+    public function login(Request $request)
+    {
+        // Validación de los datos del inicio de sesión
+        $auth = Usuario::where('usuario', $request->usuario)->where('clave', $request->clave)->first();
+
+        if (!$auth) {
+            return response()->json(['error' => 'Credenciales incorrectas'], 401);
+        }
+
+        // Si las credenciales son correctas, puedes devolver los detalles del usuario
+        return response()->json([
+            'success' => true,
+            'message' => 'Inicio de sesión exitoso',
+            'token' => 'el-token-de-autenticación',
+            'idrol' => $auth->idrol,
+            'usuario' => $auth, // Puedes devolver todos los detalles del usuario si es necesario
+        ]);
     }
 
     /**

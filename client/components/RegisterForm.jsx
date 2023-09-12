@@ -1,6 +1,39 @@
-const RegisterForm = ({ handleRegister, router }) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { redirect } from "next/navigation";
+const RegisterForm = ({ handleRegister }) => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    usuario: "",
+    clave: "",
+    habilitado: true, // Puedes ajustar el valor predeterminado según tus necesidades
+    idrol: 2, // Puedes ajustar el valor predeterminado según tus necesidades
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/register",
+        formData
+      ); // Ruta de registro en tu API
+      // Manejar la respuesta, por ejemplo, mostrar un mensaje de éxito o redirigir al usuario.
+      console.log(response.data);
+      router.push("/user");
+    } catch (error) {
+      // Manejar errores, por ejemplo, mostrar mensajes de error al usuario.
+      console.error(error);
+      router.push("/");
+    }
   };
   return (
     <div className="w-full h-full md:w-[470px] md:h-[800px] md:border-[2px] md:rounded-md md:p-8 md:box-content flex flex-col justify-center items-center gap-10">
@@ -21,12 +54,14 @@ const RegisterForm = ({ handleRegister, router }) => {
         className=" w-[90%] h-[260px] flex flex-col gap-5"
       >
         <div className="flex flex-col gap-2">
-          <span className="font-semibold text-sm">Email</span>
+          <span className="font-semibold text-sm">Username</span>
           <input
             className="border border-[#BDBDBD] h-10 md:h-12 rounded-sm px-3 text-sm"
-            type="email"
-            name="email"
-            placeholder="Enter your email"
+            type="text"
+            name="usuario"
+            placeholder="Enter your username"
+            value={formData.usuario}
+            onChange={handleChange}
           />
         </div>
 
@@ -35,8 +70,10 @@ const RegisterForm = ({ handleRegister, router }) => {
           <input
             className="border border-[#BDBDBD] h-10 md:h-12 rounded-sm px-3 text-sm"
             type="password"
-            name="password"
+            name="clave"
             placeholder="Enter your password"
+            value={formData.clave}
+            onChange={handleChange}
           />
         </div>
 
@@ -46,9 +83,6 @@ const RegisterForm = ({ handleRegister, router }) => {
             type="submit"
             name="name"
             value="Start coding now"
-            onClick={() => {
-              router.push("/admin");
-            }}
           />
         </div>
       </form>

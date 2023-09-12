@@ -1,6 +1,53 @@
+"use client";
+
+import { useState } from "react";
+import axios from "axios";
+
 const LoginForm = ({ handleRegister, router }) => {
-  const handleSubmit = (event) => {
+  const [usuario, setUsuario] = useState("");
+  const [clave, setClave] = useState("");
+
+  const handleUsuarioChange = (event) => {
+    setUsuario(event.target.value);
+  };
+
+  const handleClaveChange = (event) => {
+    setClave(event.target.value);
+  };
+
+  const handleLoginSuccess = (userData) => {
+    // Almacena la información del usuario en el localStorage
+    localStorage.setItem("userData", JSON.stringify(userData));
+
+    // Redirige al usuario a la página correspondiente
+    if (userData.idrol === 1) {
+      router.push("/admin");
+    } else if (userData.idrol === 2) {
+      router.push("/user");
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+        usuario: usuario,
+        clave: clave,
+      });
+
+      const responseData = response.data;
+
+      console.log(responseData);
+
+      if (responseData.success) {
+        // Inicio de sesión exitoso
+        handleLoginSuccess(responseData); // Llama a la función de manejo de inicio de sesión exitoso
+      }
+    } catch (error) {
+      // Manejar errores, mostrar mensajes de error, etc.
+      console.error(error);
+    }
   };
   return (
     <div className="w-full h-full md:w-[470px] md:h-[700px] md:border-[2px] md:rounded-md md:p-8 md:box-content flex flex-col justify-center items-center gap-10">
@@ -18,8 +65,10 @@ const LoginForm = ({ handleRegister, router }) => {
           <span className="font-semibold text-sm">Email</span>
           <input
             className="border border-[#BDBDBD] h-10 md:h-12 rounded-sm px-3 text-sm"
-            type="email"
-            name="email"
+            type="text"
+            name="usuario"
+            value={usuario}
+            onChange={handleUsuarioChange}
             placeholder="Enter your email"
           />
         </div>
@@ -29,7 +78,9 @@ const LoginForm = ({ handleRegister, router }) => {
           <input
             className="border border-[#BDBDBD] h-10 md:h-12 rounded-sm px-3 text-sm"
             type="password"
-            name="password"
+            name="clave"
+            value={clave}
+            onChange={handleClaveChange}
             placeholder="Enter your password"
           />
         </div>
@@ -38,11 +89,8 @@ const LoginForm = ({ handleRegister, router }) => {
           <input
             className="h-10 rounded-md bg-[#2F80ED] hover:bg-blue-300 text-white font-semibold cursor-pointer"
             type="submit"
-            name="name"
+            name="login"
             value="Login"
-            onClick={() => {
-              router.push("/admin");
-            }}
           />
         </div>
       </form>

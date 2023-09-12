@@ -32,7 +32,10 @@ const UserList = () => {
     }
   };
   return (
-    <ul role="list" className="divide-y divide-gray-100 w-[80%]  md:w-[60%]">
+    <ul
+      role="list"
+      className="divide-y divide-gray-100 w-[80%]  md:w-[60%] overflow-y-auto max-h-[600px]"
+    >
       {users.map((user) => (
         <li key={user.id} className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
