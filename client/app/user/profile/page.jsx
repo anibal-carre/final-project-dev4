@@ -10,6 +10,7 @@ import { LifeBuoy } from "lucide-react";
 import { UserBox } from "@/components/ui/UserBox";
 import UserNav from "@/components/UserNav";
 import Link from "next/link";
+import { ModalProfile } from "@/components/ModalProfile";
 
 const UserProfile = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -118,10 +119,19 @@ const UserProfile = () => {
                           ********
                         </p>
                       </div>
+
+                      <div>
+                        <span className="text-sm font-semibold">Created</span>
+                        <p className=" truncate text-xs leading-5 text-gray-500">
+                          {userData.usuario.created_at.toString().slice(0, 10)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-end justify-end">
-                    <div className="flex gap-2"></div>
+                    <div className="flex gap-2 mt-10">
+                      <ModalProfile />
+                    </div>
                   </div>
                 </li>
               </ul>
