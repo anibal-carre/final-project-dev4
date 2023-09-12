@@ -46,7 +46,7 @@ const UserPage = () => {
           <div className="flex items-center h-12 mt-5 px-2 gap-3">
             <img
               className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src="https://github.com/shadcn.png"
               alt=""
             />
             <div className="flex flex-col">
@@ -58,10 +58,7 @@ const UserPage = () => {
           </div>
           <div className="h-12 mt-6 flex items-center justify-start px-2">
             <div className="w-[200px]">
-              <span
-                className="text-white text-md font-normal cursor-pointer flex"
-                onClick={() => router.push("/admin")}
-              >
+              <span className="text-white text-md font-normal cursor-pointer flex">
                 <LifeBuoy className="text-white cursor-pointer mr-2" />
                 Dashboard
               </span>

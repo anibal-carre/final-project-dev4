@@ -54,7 +54,7 @@ export function CreateRol() {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Create a new user</AlertDialogTitle>
+          <AlertDialogTitle>Create a new rol</AlertDialogTitle>
           <AlertDialogDescription>
             <form
               action=""

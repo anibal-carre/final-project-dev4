@@ -11,6 +11,7 @@ import { UserBox } from "@/components/ui/UserBox";
 import UserNav from "@/components/UserNav";
 import { ComboboxDemo } from "@/components/ui/ComboBox";
 import NavBar from "@/components/NavBar";
+import Link from "next/link";
 
 const Profile = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -46,7 +47,7 @@ const Profile = () => {
           <div className="flex items-center h-12 mt-5 px-2 gap-3">
             <img
               className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src="https://github.com/shadcn.png"
               alt=""
             />
             <div className="flex flex-col">
@@ -58,22 +59,22 @@ const Profile = () => {
           </div>
           <div className="h-12 mt-6 flex items-center justify-start px-2">
             <div className="w-[200px]">
-              <span
+              <Link
+                href={"/admin"}
                 className="text-white text-md font-normal cursor-pointer flex"
-                onClick={() => router.push("/admin")}
               >
                 <LifeBuoy className="text-white cursor-pointer mr-2" />
                 Dashboard
-              </span>
+              </Link>
             </div>
           </div>
           <div className="h-12 mt-3 flex items-center justify-start px-2">
             <ComboboxDemo
-              links={"/links"}
-              parameters={"/parameters"}
-              users={"/users"}
-              logbooks={"/logbooks"}
-              roles={"/roles"}
+              links={"/admin/links"}
+              parameters={"/admin/parameters"}
+              users={"/admin/users"}
+              logbooks={"/admin/logbooks"}
+              roles={"/admin/roles"}
             />
           </div>
         </aside>
@@ -96,12 +97,10 @@ const Profile = () => {
                 className="divide-y divide-gray-100 w-[80%]  md:w-[60%] overflow-y-auto max-h-[600px]"
               >
                 <li className="flex justify-between gap-x-6 py-5">
-                  <div className="flex min-w-0 gap-x-4">
+                  <div className="flex min-w-0 gap-x-4 mt-10">
                     <img
                       className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                      src={
-                        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      }
+                      src={"https://github.com/shadcn.png"}
                       alt=""
                     />
                     <div className="min-w-0 flex-auto flex flex-col gap-2">
